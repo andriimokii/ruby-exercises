@@ -68,7 +68,7 @@ class TicTacToe
       end
     end
 
-    draw_status = board.all? { |cell| cell[:checked] == true }
+    draw_status = board.all? { |cell| cell[:checked] == true } && !win_status
 
     { win: win_status, draw: draw_status }
   end
