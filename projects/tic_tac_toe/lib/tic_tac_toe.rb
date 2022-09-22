@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'player'
 
 class TicTacToe
@@ -23,7 +25,7 @@ class TicTacToe
   end
 
   def update_board(player_turn)
-    self.board[player_turn] = { checked: true, player: players.first }
+    board[player_turn] = { checked: true, player: players.first }
   end
 
   def player_turn
@@ -58,11 +60,11 @@ class TicTacToe
   end
 
   def shuffle_players!
-    self.players.shuffle!
+    players.shuffle!
   end
 
   def rotate_players!
-    self.players.rotate!
+    players.rotate!
   end
 
   private

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def stock_picker(array)
   array.each_with_index.reduce(Array.new(2, 0)) do |result, (stock, index)|
     max_sell = array[index..].max

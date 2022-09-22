@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'knight'
 
 class KnightsTravails
@@ -16,7 +18,8 @@ class KnightsTravails
   private
 
   def create_bst(start_pos, end_pos)
-    queue, current = [], Knight.new(start_pos)
+    queue = []
+    current = Knight.new(start_pos)
 
     until current.position == end_pos
       current.next_moves.each do |move|
@@ -34,6 +37,7 @@ class KnightsTravails
 
     path << end_node.position
     return path.reverse if end_node.position == start_pos
+
     search_path(end_node.parent, start_pos, path)
   end
 

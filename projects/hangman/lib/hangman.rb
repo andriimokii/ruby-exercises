@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'basic_serializable'
 require_relative 'player'
 
@@ -65,7 +67,7 @@ class Hangman
   end
 
   def save_game
-    puts "Save the game? [y]: "
+    puts 'Save the game? [y]: '
     if gets.chomp.downcase == 'y'
       Dir.mkdir('game_snapshots') unless Dir.exist?('game_snapshots')
       Dir.chdir('game_snapshots')
@@ -76,9 +78,9 @@ class Hangman
   def check_char(user_char)
     if word.index(user_char).nil?
       self.counter -= 1
-      self.incorrect_letters << user_char
+      incorrect_letters << user_char
     else
-      self.correct_letters << user_char
+      correct_letters << user_char
     end
   end
 
@@ -87,9 +89,8 @@ class Hangman
   end
 
   def serialize
-    obj = instance_variables.reduce({}) do |obj, var|
-      obj[var] = var == :@player ? self.player.serialize : instance_variable_get(var)
-      obj
+    obj = instance_variables.each_with_object({}) do |var, obj|
+      obj[var] = var == :@player ? player.serialize : instance_variable_get(var)
     end
 
     @@serializer.dump obj

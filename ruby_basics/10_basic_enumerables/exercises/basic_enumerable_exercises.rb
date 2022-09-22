@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def display_current_inventory(inventory_list)
   # use #each to iterate through each item of the inventory_list (a hash)
   # use puts to output each list item "<key>, quantity: <value>" to console
@@ -27,8 +29,7 @@ def find_word_lengths(word_list)
   # use #reduce to iterate through each item of the word_list (an array)
   # return a hash with each word as the key and its length as the value
   # hint: look at the documentation and review the reduce examples in basic enumerable lesson
-  word_list.reduce(Hash.new) do |result, item|
+  word_list.each_with_object({}) do |item, result|
     result[item] = item.length
-    result
   end
 end

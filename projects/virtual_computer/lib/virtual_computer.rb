@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Computer
   @@users = {}
   def initialize(username, password)
@@ -13,7 +15,7 @@ class Computer
     puts "#{filename} #{@username} #{time}"
   end
 
-  def Computer.get_users
+  def self.get_users
     @@users
   end
 end

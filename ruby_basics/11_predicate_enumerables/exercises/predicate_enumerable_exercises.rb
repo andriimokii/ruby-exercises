@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 def coffee_drink?(drink_list)
   # use #include? to return true when the drink_list (array) contains the string "coffee" or "espresso"
-  coffee_drinks = %w(coffee espresso)
-  coffee_drinks.any? { |coffee_drink| drink_list.include?(coffee_drink)  }
+  coffee_drinks = %w[coffee espresso]
+  coffee_drinks.any? { |coffee_drink| drink_list.include?(coffee_drink) }
 end
 
 def correct_guess?(guess_list, answer)

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 def fibs(number)
   number.times.reduce([]) do |fib, index|
-    index < 2 ? fib << index : fib << fib[index - 1] + fib[index - 2]
+    fib << (index < 2 ? index : fib[index - 1] + fib[index - 2])
   end
 end
 

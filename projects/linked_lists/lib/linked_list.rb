@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'node'
 
 class LinkedList
@@ -10,9 +12,7 @@ class LinkedList
     return prepend(value) if @head.nil?
 
     current_node = @head
-    until current_node == @tail
-      current_node = current_node.next_node
-    end
+    current_node = current_node.next_node until current_node == @tail
 
     node = Node.new(value, nil)
     @tail = current_node.next_node = node
@@ -28,7 +28,8 @@ class LinkedList
   def size
     return 0 if @head.nil?
 
-    counter, current_node = 1, @head
+    counter = 1
+    current_node = @head
     until current_node == @tail
       current_node = current_node.next_node
       counter += 1
@@ -37,23 +38,18 @@ class LinkedList
     counter
   end
 
-  def head
-    @head
-  end
-
-  def tail
-    @tail
-  end
+  attr_reader :head, :tail
 
   def at(index)
     return 'List empty' if @head.nil?
     return 'Index out of range' unless index < size && index >= 0
 
-    counter, current_node = 0, @head
+    counter = 0
+    current_node = @head
     until counter == index
       begin
         current_node = current_node.next_node
-      rescue
+      rescue StandardError
         puts "Index #{index} out of range"
         exit
       end
@@ -68,11 +64,10 @@ class LinkedList
     return 'List empty' if @head.nil?
 
     current_node = @head
-    until current_node.next_node == @tail
-      current_node = current_node.next_node
-    end
+    current_node = current_node.next_node until current_node.next_node == @tail
 
-    current_node.next_node, @tail = nil, current_node
+    current_node.next_node = nil
+    @tail = current_node
   end
 
   def contains?(value)
@@ -81,6 +76,7 @@ class LinkedList
     current_node = @head
     until current_node.nil?
       return true if current_node.value == value
+
       current_node = current_node.next_node
     end
 
@@ -90,9 +86,11 @@ class LinkedList
   def find(value)
     return if @head.nil?
 
-    counter, current_node = 0, @head
+    counter = 0
+    current_node = @head
     until current_node.nil?
       return counter if current_node.value == value
+
       current_node = current_node.next_node
       counter += 1
     end
@@ -101,7 +99,8 @@ class LinkedList
   end
 
   def to_s
-    result, node = "", @head
+    result = ''
+    node = @head
 
     until node.nil?
       result << "(#{node}) -> "
@@ -111,7 +110,7 @@ class LinkedList
   end
 
   def insert_at(value, index)
-    return 'Index out of range' if index > size || index < 0
+    return 'Index out of range' if index > size || index.negative?
     return prepend(value) if index.zero?
 
     node = Node.new(value, at(index))
@@ -120,7 +119,7 @@ class LinkedList
   end
 
   def remove_at(index)
-    return 'Index out of range' if index >= size || index < 0
+    return 'Index out of range' if index >= size || index.negative?
     return @head = at(1) if index.zero?
 
     if at(index) == @tail

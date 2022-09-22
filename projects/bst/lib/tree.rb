@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'node'
 
 class Tree
@@ -72,7 +74,8 @@ class Tree
   def level_order_iter(root = @root, &block)
     return nil if root.nil?
 
-    queue, result = [root], []
+    queue = [root]
+    result = []
 
     until queue.empty?
       current = queue.first
@@ -166,9 +169,7 @@ class Tree
   def min_data_node(node)
     current = node
 
-    until current.left_node.nil?
-      current = current.left_node
-    end
+    current = current.left_node until current.left_node.nil?
 
     current
   end

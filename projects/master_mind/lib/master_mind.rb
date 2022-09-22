@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'player'
 
 class MasterMind
@@ -22,20 +24,19 @@ class MasterMind
   def start
     game_choice = get_game_choice
 
-    if game_choice == 1
+    case game_choice
+    when 1
       puts "Random code: #{code}"
       1.upto(GUESS_COUNT) do |guess_count|
         user_guess = get_guess(guess_count)
         check_win(user_guess, guess_count)
         p guessed_counters(user_guess)
       end
-    elsif game_choice == 0
+    when 0
       get_code
 
       1.upto(GUESS_COUNT) do |guess_count|
-        if guess_count == 1
-          self.computer_guess = generate_code
-        end
+        self.computer_guess = generate_code if guess_count == 1
 
         check_win(computer_guess, guess_count)
         guessed_counters = guessed_counters(computer_guess)
@@ -75,14 +76,12 @@ class MasterMind
   end
 
   def guessed_counters(user_guess)
-    user_guess.each_with_index.reduce([]) do |result, (guess_ball, index)|
+    user_guess.each_with_index.each_with_object([]) do |(guess_ball, index), result|
       if guess_ball == code[index]
         result << COUNTER_COLORS.last
       elsif code.include?(guess_ball)
         result << COUNTER_COLORS.first
       end
-
-      result
     end
   end
 
@@ -90,13 +89,14 @@ class MasterMind
     if guessed_counters.size == 3
       if temp_ball.nil?
         self.temp_ball = computer_guess[guess_helper]
-        self.computer_guess[guess_helper] = (BALL_COLORS - computer_guess).join.to_s
+        computer_guess[guess_helper] = (BALL_COLORS - computer_guess).join.to_s
       else
-        self.temp_ball, self.computer_guess[guess_helper - 1], self.computer_guess[guess_helper] = computer_guess[guess_helper], temp_ball, computer_guess[guess_helper - 1]
+        self.temp_ball, computer_guess[guess_helper - 1], computer_guess[guess_helper] =
+          computer_guess[guess_helper], temp_ball, computer_guess[guess_helper - 1]
       end
       self.guess_helper += 1
     else
-      self.computer_guess.shuffle!
+      computer_guess.shuffle!
     end
   end
 end

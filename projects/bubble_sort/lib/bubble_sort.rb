@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def bubble_sort(array)
   size = array.size
 
@@ -11,9 +13,7 @@ def bubble_sort(array)
       end
     end
 
-    unless is_swapped
-      break
-    end
+    break unless is_swapped
   end
 
   array

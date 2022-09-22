@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Knight
   MOVES = [[-2, -1], [-2, 1], [2, -1], [2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2]].freeze
 
@@ -14,7 +16,7 @@ class Knight
     moves = MOVES.map do |move|
       move.each_with_index.map do |num, index|
         sum = num + position[index]
-        sum unless sum < 0 || sum > 7
+        sum unless sum.negative? || sum > 7
       end
     end
 

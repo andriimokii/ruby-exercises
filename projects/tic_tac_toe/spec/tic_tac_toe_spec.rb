@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require_relative '../lib/tic_tac_toe'
 require_relative '../lib/player'
@@ -60,7 +62,11 @@ RSpec.describe TicTacToe do
     it 'updates the board with player turn' do
       player_turn = 0
 
-      expect { game.update_board(player_turn) }.to change { game.board[player_turn] }.from({:checked=>nil, :player=>nil}).to({ checked: true, player: game.players.first })
+      expect { game.update_board(player_turn) }.to change {
+                                                     game.board[player_turn]
+                                                   }.from({ checked: nil,
+                                                            player: nil }).to({ checked: true,
+                                                                                player: game.players.first })
     end
   end
 
@@ -171,7 +177,7 @@ RSpec.describe TicTacToe do
       subject(:game) { described_class.new([player]) }
 
       before do
-        3.times { |index| game.board[index] = { checked: true, player: player } }
+        3.times { |index| game.board[index] = { checked: true, player: } }
       end
 
       it 'returns win status true, and draw status false' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../lib/calculator'
 
 describe Calculator do
@@ -7,7 +9,7 @@ describe Calculator do
       expect(calc.add(1, 1)).to eql(2)
     end
 
-    it "returns the sum of more than two numbers" do
+    it 'returns the sum of more than two numbers' do
       calculator = Calculator.new
       expect(calculator.add(2, 5, 7)).to eql(14)
     end

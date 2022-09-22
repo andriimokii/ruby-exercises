@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Node
   include Comparable
 
@@ -9,7 +11,7 @@ class Node
     @right_node = nil
   end
 
-  def <=>(other_node)
-    data <=> other_node.data
+  def <=>(other)
+    data <=> other.data
   end
 end
