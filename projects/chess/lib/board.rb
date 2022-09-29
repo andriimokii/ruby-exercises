@@ -32,7 +32,8 @@ class Board
   end
 
   def move_verified?(player, pos_from, pos_to)
-    return false unless player_color?(player, pos_from) && move_in_list?(pos_from, pos_to)
+    return false unless player_color?(player, pos_from)
+    return false unless move_in_list?(pos_from, pos_to) || (castle?(pos_from, pos_to) && can_castle?(pos_from, pos_to))
 
     true
   end
@@ -42,7 +43,6 @@ class Board
   end
 
   def move_in_list?(pos_from, pos_to)
-    p piece_at(pos_from).valid_moves(self)
     piece_at(pos_from).valid_moves(self).include?(pos_to)
   end
 
@@ -55,10 +55,8 @@ class Board
   end
 
   def move_piece(pos_from, pos_to)
-    # p piece_at(pos_from).valid_moves(self)
     fill_square!(pos_to, player_at(pos_from), piece_at(pos_from))
     empty_square!(pos_from)
-
   end
 
   def fill_square!(pos, player, piece)
@@ -108,5 +106,11 @@ class Board
   def stalemate?(color)
     pieces = find_pieces(color)
     !check?(color) && pieces.all? { |piece| piece.valid_moves(self).empty? }
+  end
+
+  def make_turn(pos_from, pos_to)
+    return castling(pos_from, pos_to) if castle?(pos_from, pos_to) && can_castle?(pos_from, pos_to)
+
+    move_piece(pos_from, pos_to)
   end
 end

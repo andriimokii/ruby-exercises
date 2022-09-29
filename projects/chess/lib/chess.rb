@@ -19,7 +19,7 @@ class Chess
   end
 
   def turn_order
-    board.move_piece(*player_turn)
+    board.make_turn(*player_turn)
     board.display
     rotate_players!
     display_message(players.first)

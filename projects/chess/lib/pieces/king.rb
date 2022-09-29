@@ -5,6 +5,8 @@ require_relative 'stepping_piece'
 class King < SteppingPiece
   OFFSETS = (ORTHOGONAL + DIAGONAL).freeze
 
+  attr_reader :has_moved
+
   def initialize(position, color = :white, short = 'K')
     super
     @has_moved = false

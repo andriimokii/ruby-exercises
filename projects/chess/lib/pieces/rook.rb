@@ -5,6 +5,8 @@ require_relative 'sliding_piece'
 class Rook < SlidingPiece
   OFFSETS = ORTHOGONAL.freeze
 
+  attr_reader :has_moved
+
   def initialize(position, color = :white, short = 'R')
     super
     @has_moved = false
