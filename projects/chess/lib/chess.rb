@@ -26,7 +26,7 @@ class Chess
   end
 
   def game_over?
-    board.checkmate?(players.first.color)
+    board.checkmate?(players.first.color) || board.stalemate?(players.first.color)
   end
 
   def player_turn

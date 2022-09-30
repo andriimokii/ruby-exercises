@@ -3,14 +3,16 @@
 require_relative 'piece'
 
 class Pawn < Piece
-  attr_reader :has_moved
+  attr_reader :has_moved, :en_passant
 
   def initialize(position, color = :white, short = 'P')
     super
     @has_moved = false
+    @en_passant = false
   end
 
   def position=(position)
+    @en_passant = (@position[0] - position[0]).abs == 2
     @position = position
     @has_moved = true
   end

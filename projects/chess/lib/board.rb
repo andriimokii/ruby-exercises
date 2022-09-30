@@ -3,20 +3,23 @@
 require_relative 'pieces/main'
 require_relative 'modules/board_configurable'
 require_relative 'modules/castling'
+require_relative 'modules/en_passant'
 
 class Board
   include BoardConfigurable
   include Castling
+  include EnPassant
 
   BOARD_SIZE = 8
 
-  attr_accessor :players, :board
+  attr_accessor :players, :board, :previous_piece
 
   def initialize(players)
     @players = players
     @board = Array.new(BOARD_SIZE) do
       Array.new(BOARD_SIZE) { self.class.nil_square }
     end
+    @previous_piece = nil
   end
 
   def self.on_board?(position)
@@ -33,7 +36,11 @@ class Board
 
   def move_verified?(player, pos_from, pos_to)
     return false unless player_color?(player, pos_from)
-    return false unless move_in_list?(pos_from, pos_to) || (castle?(pos_from, pos_to) && can_castle?(pos_from, pos_to))
+    unless move_in_list?(pos_from, pos_to) ||
+           (castle?(pos_from, pos_to) && can_castle?(pos_from, pos_to)) ||
+           en_passant_verified?(pos_from, pos_to)
+      return false
+    end
 
     true
   end
@@ -110,8 +117,11 @@ class Board
 
   def make_turn(pos_from, pos_to)
     return castling(pos_from, pos_to) if castle?(pos_from, pos_to) && can_castle?(pos_from, pos_to)
+    return en_passant(pos_from, pos_to) if en_passant_verified?(pos_from, pos_to)
 
     move_piece(pos_from, pos_to)
+
+    self.previous_piece = piece_at(pos_to)
   end
 
   def pos_offset(pos_from, pos_to)
