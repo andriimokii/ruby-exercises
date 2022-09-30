@@ -113,4 +113,8 @@ class Board
 
     move_piece(pos_from, pos_to)
   end
+
+  def pos_offset(pos_from, pos_to)
+    pos_from.map.with_index { |pos, index| (pos - pos_to[index]).abs }
+  end
 end
