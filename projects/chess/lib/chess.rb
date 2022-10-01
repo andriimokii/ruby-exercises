@@ -2,8 +2,11 @@
 
 require_relative 'player'
 require_relative 'board'
+require_relative 'modules/serializable'
 
 class Chess
+  include Serializable
+
   attr_accessor :players, :board
 
   def initialize(players)
@@ -13,7 +16,15 @@ class Chess
 
   def start
     puts "Let's play a game called 'Chess'!"
-    board.place_pieces
+
+    if load_game?
+      chess = load_game
+      @board = chess.board
+      @players = chess.players
+    else
+      board.place_pieces
+    end
+
     board.display
     turn_order until game_over?
   end
@@ -32,6 +43,7 @@ class Chess
   def player_turn
     loop do
       verified_input = verify_input(player_input)
+
       return verified_input if verified_input
 
       puts 'Input error!'
@@ -39,6 +51,7 @@ class Chess
   end
 
   def verify_input(input)
+    return unless input
     return unless input_on_board?(input) && board.move_verified?(players.first, *input)
 
     input
@@ -57,6 +70,10 @@ class Chess
   def player_input
     print "#{players.first} (#{players.first.color}) move: "
     from_notation, to_notation = *gets.chomp.split
+
+    exit if from_notation.downcase == 'q'
+    return save_game if from_notation.downcase == 's'
+
     [Board.to_coords(from_notation), Board.to_coords(to_notation)]
   end
 
