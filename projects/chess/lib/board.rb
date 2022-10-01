@@ -4,11 +4,13 @@ require_relative 'pieces/main'
 require_relative 'modules/board_configurable'
 require_relative 'modules/castling'
 require_relative 'modules/en_passant'
+require_relative 'modules/promotion'
 
 class Board
   include BoardConfigurable
   include Castling
   include EnPassant
+  include Promotion
 
   BOARD_SIZE = 8
 
@@ -118,6 +120,7 @@ class Board
   def make_turn(pos_from, pos_to)
     return castling(pos_from, pos_to) if castle?(pos_from, pos_to) && can_castle?(pos_from, pos_to)
     return en_passant(pos_from, pos_to) if en_passant_verified?(pos_from, pos_to)
+    return promote(pos_from, pos_to) if promote_verified?(pos_from, pos_to)
 
     move_piece(pos_from, pos_to)
 
