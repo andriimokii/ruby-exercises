@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Piece
+  COLOR = %i[white black].freeze
   ORTHOGONAL = [[0, 1], [0, -1], [1, 0], [-1, 0]].freeze
   DIAGONAL = [[-1, -1], [1, -1], [-1, 1], [1, 1]].freeze
 
@@ -11,7 +12,7 @@ class Piece
     @position = position
     @short = short
     @color = color
-    @unicode_symbol = to_unicode_symbol(color)
+    @unicode_symbol = self.class.to_unicode_symbol(color)
   end
 
   def to_s

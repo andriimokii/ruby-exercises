@@ -1,18 +1,27 @@
 # frozen_string_literal: true
 
-module Promotion
-  def promote_verified?(pos_from, pos_to)
-    piece_at(pos_from).is_a?(Pawn) && promotion_rank?(pos_to.first, piece_at(pos_from).color)
-  end
-
-  def promotion_rank?(rank, color)
-    (color == :white && rank.zero?) || (color == :black && rank == 7)
-  end
+module Promotionable
+  COLOR = %i[white black].freeze
+  RANKS = [0, 7].freeze
+  INPUT_REGEXP = /^[0-3]$/
 
   def promote(pos_from, pos_to)
     choice = select_promotion_piece
     create_promotion_piece!(choice, pos_from, pos_to)
     empty_square!(pos_from)
+  end
+
+  def promote_verified?(pos_from, pos_to)
+    rank = pos_to.first
+    color = piece_at(pos_from).color
+    piece_type_at_position?(pos_from, Pawn) && promotion_rank?(rank, color)
+  end
+
+  private
+
+  def promotion_rank?(rank, color)
+    (color == COLOR.first && rank == RANKS.first) ||
+      (color == COLOR.last && rank == RANKS.last)
   end
 
   def select_promotion_piece
@@ -30,7 +39,7 @@ module Promotion
   end
 
   def verify_promotion_piece(input)
-    return unless input.match?(/^[0-3]$/)
+    return unless input.match?(INPUT_REGEXP)
 
     input
   end
@@ -40,18 +49,12 @@ module Promotion
     color = piece_at(pos_from).color
 
     case choice.to_i
-    when 0
-      fill_square!(pos_to, player, Queen.new(pos_to, color))
-    when 1
-      fill_square!(pos_to, player, Bishop.new(pos_to, color))
-    when 2
-      fill_square!(pos_to, player, Knight.new(pos_to, color))
-    else
-      fill_square!(pos_to, player, Rook.new(pos_to, color))
+    when 0 then fill_square!(pos_to, player, Queen.new(pos_to, color))
+    when 1 then fill_square!(pos_to, player, Bishop.new(pos_to, color))
+    when 2 then fill_square!(pos_to, player, Knight.new(pos_to, color))
+    else fill_square!(pos_to, player, Rook.new(pos_to, color))
     end
   end
-
-  private
 
   def display_promotion_choices
     puts <<~HEREDOC

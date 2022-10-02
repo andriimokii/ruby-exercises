@@ -5,11 +5,11 @@ require_relative 'sliding_piece'
 class Queen < SlidingPiece
   OFFSETS = (ORTHOGONAL + DIAGONAL).freeze
 
-  def initialize(position, color = :white, short = 'Q')
-    super
+  def self.to_unicode_symbol(color)
+    color == COLOR.first ? "\u2655" : "\u265B"
   end
 
-  def to_unicode_symbol(color)
-    color == :white ? "\u2655" : "\u265B"
+  def initialize(position, color = :white, short = 'Q')
+    super
   end
 end

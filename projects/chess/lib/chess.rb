@@ -19,19 +19,21 @@ class Chess
 
     if load_game?
       chess = load_game
-      @board = chess.board
-      @players = chess.players
+      self.board = chess.board
+      self.players = chess.players
     else
       board.place_pieces
     end
 
-    board.display
+    board.display_board
     turn_order until game_over?
   end
 
+  private
+
   def turn_order
     board.make_turn(*player_turn)
-    board.display
+    board.display_board
     rotate_players!
     display_message(players.first)
   end
@@ -51,8 +53,7 @@ class Chess
   end
 
   def verify_input(input)
-    return unless input
-    return unless input_on_board?(input) && board.move_verified?(players.first, *input)
+    return unless !input.nil? && input_on_board?(input) && board.move_verified?(players.first, *input)
 
     input
   end
@@ -64,8 +65,6 @@ class Chess
   def rotate_players!
     players.rotate!
   end
-
-  private
 
   def player_input
     print "#{players.first} (#{players.first.color}) move: "

@@ -7,6 +7,10 @@ class Rook < SlidingPiece
 
   attr_reader :has_moved
 
+  def self.to_unicode_symbol(color)
+    color == COLOR.first ? "\u2656" : "\u265C"
+  end
+
   def initialize(position, color = :white, short = 'R')
     super
     @has_moved = false
@@ -15,9 +19,5 @@ class Rook < SlidingPiece
   def position=(position)
     @position = position
     @has_moved = true
-  end
-
-  def to_unicode_symbol(color)
-    color == :white ? "\u2656" : "\u265C"
   end
 end

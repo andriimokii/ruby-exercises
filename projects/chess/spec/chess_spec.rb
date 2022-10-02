@@ -5,5 +5,4 @@ require_relative '../lib/chess'
 require_relative '../lib/player'
 
 RSpec.describe Chess do
-
 end

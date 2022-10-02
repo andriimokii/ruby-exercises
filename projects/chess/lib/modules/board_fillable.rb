@@ -2,7 +2,7 @@
 
 require_relative 'piece_positionable'
 
-module BoardConfigurable
+module BoardFillable
   COLOR = %i[white black].freeze
 
   def place_pieces

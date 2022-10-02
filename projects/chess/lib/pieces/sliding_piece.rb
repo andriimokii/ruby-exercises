@@ -18,11 +18,9 @@ class SlidingPiece < Piece
 
     loop do
       move = get_move(offset, factor)
-
       break unless Board.on_board?(move)
 
       moves_path << move if move_verified?(move, board)
-
       break if board.square_checked?(move)
 
       factor += 1
@@ -39,6 +37,6 @@ class SlidingPiece < Piece
   def move_verified?(move, board)
     return true unless board.square_checked?(move)
 
-    board.square_checked?(move) && board.board[move.first][move.last][:piece].color != color
+    board.square_checked?(move) && !board.same_color?(move, self)
   end
 end

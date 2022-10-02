@@ -7,6 +7,10 @@ class King < SteppingPiece
 
   attr_reader :has_moved
 
+  def self.to_unicode_symbol(color)
+    color == COLOR.first ? "\u2654" : "\u265A"
+  end
+
   def initialize(position, color = :white, short = 'K')
     super
     @has_moved = false
@@ -15,9 +19,5 @@ class King < SteppingPiece
   def position=(position)
     @position = position
     @has_moved = true
-  end
-
-  def to_unicode_symbol(color)
-    color == :white ? "\u2654" : "\u265A"
   end
 end
