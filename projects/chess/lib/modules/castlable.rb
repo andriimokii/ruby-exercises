@@ -13,8 +13,8 @@ module Castlable
   KING_POSITION_OFFSET = [0, 2].freeze
 
   def castle(pos_from, pos_to)
-    move_piece(pos_from, pos_to)
-    move_piece(*rook_positions(pos_from, pos_to))
+    move_piece!(pos_from, pos_to)
+    move_piece!(*rook_positions(pos_from, pos_to))
   end
 
   def castle_verified?(pos_from, pos_to)

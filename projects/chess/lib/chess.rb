@@ -9,27 +9,25 @@ class Chess
 
   attr_accessor :players, :board
 
-  def initialize(players)
+  def initialize(players, board = Board.new(players))
     @players = players
-    @board = Board.new(players)
+    @board = board
   end
 
   def start
     puts "Let's play a game called 'Chess'!"
-
-    if load_game?
-      chess = load_game
-      self.board = chess.board
-      self.players = chess.players
-    else
-      board.place_pieces
-    end
-
+    configure_board!
     board.display_board
     turn_order until game_over?
   end
 
-  private
+  def configure_board!
+    return board.place_pieces unless load_game?
+
+    chess = load_game
+    self.board = chess.board
+    self.players = chess.players
+  end
 
   def turn_order
     board.make_turn(*player_turn)
@@ -70,11 +68,14 @@ class Chess
     print "#{players.first} (#{players.first.color}) move: "
     from_notation, to_notation = *gets.chomp.split
 
-    exit if from_notation.downcase == 'q'
-    return save_game if from_notation.downcase == 's'
+    exit if from_notation&.downcase == 'q'
+    return save_game if from_notation&.downcase == 's'
+    return if from_notation.nil? || to_notation.nil?
 
     [Board.to_coords(from_notation), Board.to_coords(to_notation)]
   end
+
+  private
 
   def display_message(player)
     if board.checkmate?(player.color)
@@ -87,7 +88,7 @@ class Chess
   end
 end
 
-player_1 = Player.new('Player #1', :white)
-player_2 = Player.new('Player #2', :black)
-game = Chess.new([player_1, player_2])
-game.start
+# player_1 = Player.new('Player #1', :white)
+# player_2 = Player.new('Player #2', :black)
+# game = Chess.new([player_1, player_2])
+# game.start

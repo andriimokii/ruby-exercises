@@ -58,7 +58,7 @@ class Board
     true
   end
 
-  def move_piece(pos_from, pos_to)
+  def move_piece!(pos_from, pos_to)
     fill_square!(pos_to, player_at(pos_from), piece_at(pos_from))
     empty_square!(pos_from)
   end
@@ -92,9 +92,8 @@ class Board
     return en_passant(pos_from, pos_to) if en_passant_verified?(pos_from, pos_to)
     return promote(pos_from, pos_to) if promote_verified?(pos_from, pos_to)
 
-    move_piece(pos_from, pos_to)
-
-    self.previous_piece = piece_at(pos_to)
+    move_piece!(pos_from, pos_to)
+    change_previous_piece!(pos_to)
   end
 
   def same_color?(pos, obj)
@@ -163,5 +162,9 @@ class Board
 
   def position_between(pos_from, pos_to)
     pos_from.map.with_index { |pos, index| (pos + pos_to[index]) / 2 }
+  end
+
+  def change_previous_piece!(pos)
+    self.previous_piece = piece_at(pos)
   end
 end

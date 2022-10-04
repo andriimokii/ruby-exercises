@@ -8,7 +8,7 @@ module EnPassantable
 
   def en_passant(pos_from, pos_to)
     empty_square!(previous_piece.position)
-    move_piece(pos_from, pos_to)
+    move_piece!(pos_from, pos_to)
   end
 
   def en_passant_verified?(pos_from, pos_to)
